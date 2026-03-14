@@ -1,1 +1,68 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Results - B.Sc Computer Science</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .pass { color: white; background-color: #28a745; font-weight: bold; padding: 5px; border-radius: 4px; }
+        .fail { color: white; background-color: #dc3545; font-weight: bold; padding: 5px; border-radius: 4px; }
+        .student-header { background-color: #e9ecef; padding: 10px; font-weight: bold; border-left: 5px solid #007bff; }
+        .total-row { font-weight: bold; background-color: #fff3cd; }
+    </style>
+</head>
+<body>
 
+    <h2>Student Results - Semester 1</h2>
+
+    [span_0](start_span)<div class="student-header">SUPRIYA VANKAYALAPATI (Reg No: 250701)[span_0](end_span)</div>
+    <table>
+        <thead>
+            <tr>
+                <th>Subject Name</th>
+                <th>CIA</th>
+                <th>SEE</th>
+                <th>Total</th>
+                <th>Result</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>English Bridge-I</td><td>29/40</td><td>31/60</td><td>60</td><td><span class="pass">P</span></td></tr>
+            <tr><td>Sahithi Vasantham</td><td>34/40</td><td>37/80</td><td>71</td><td><span class="pass">P</span></td></tr>
+            <tr><td>AI Fundamentals</td><td>29/40</td><td>33/60</td><td>62</td><td><span class="pass">P</span></td></tr>
+            <tr><td>Computer Fundamentals</td><td>20/40</td><td>24/60</td><td>44</td><td><span class="pass">P</span></td></tr>
+            <tr><td>Computer Lab</td><td>7/10</td><td>25/40</td><td>32</td><td><span class="pass">P</span></td></tr>
+            <tr><td>Problem Solving Using C</td><td>25/40</td><td>35/40</td><td>60</td><td><span class="pass">P</span></td></tr>
+            <tr><td>C Lab</td><td>10/10</td><td>20/40</td><td>30</td><td><span class="pass">P</span></td></tr>
+            <tr class="total-row"><td colspan="3">Grand Total</td><td>359</td><td>PASS</td></tr>
+        </tbody>
+    </table>
+
+    [span_1](start_span)<div class="student-header">ACHARAM GNANA LAKSHMI SOUNDARYA (Reg No: 250702)[span_1](end_span)</div>
+    <table>
+        <thead>
+            <tr>
+                <th>Subject Name</th>
+                <th>CIA</th>
+                <th>SEE</th>
+                <th>Total</th>
+                <th>Result</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>English Bridge-I</td><td>32/40</td><td>35/60</td><td>67</td><td><span class="pass">P</span></td></tr>
+            <tr><td>Sahithi Vasantham</td><td>30/40</td><td>47/80</td><td>77</td><td><span class="pass">P</span></td></tr>
+            <tr><td>AI Fundamentals</td><td>29/40</td><td>35/60</td><td>64</td><td><span class="pass">P</span></td></tr>
+            <tr><td>Computer Fundamentals</td><td>17/40</td><td>28/60</td><td>45</td><td><span class="pass">P</span></td></tr>
+            <tr><td>Computer Lab</td><td>7/10</td><td>24/40</td><td>31</td><td><span class="pass">P</span></td></tr>
+            <tr><td>Problem Solving Using C</td><td>25/40</td><td>30/40</td><td>55</td><td><span class="pass">P</span></td></tr>
+            <tr><td>C Lab</td><td>10/10</td><td>20/40</td><td>30</td><td><span class="pass">P</span></td></tr>
+            <tr class="total-row"><td colspan="3">Grand Total</td><td>369</td><td>PASS</td></tr>
+        </tbody>
+    </table>
+
+    </body>
+</html>

@@ -123,37 +123,57 @@ padding:8px;
 
 <div id="resultBox"></div>
 
-<script>
+<script type="module">
 
-const studentDB={
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-"250701":{
-name:"SUPRIYA VANKAYALAPATI",
-results:[
-{code:"100125",name:"ENGLISH BRIDGE-I: LIFE SKILLS",total:60,res:"P"},
-{code:"100225",name:"SAHITHI VASANTHAM",total:71,res:"P"},
-{code:"101125",name:"AI FUNDAMENTALS",total:62,res:"P"},
-{code:"111925",name:"COMPUTER FUNDAMENTALS AND OFFICE AUTOMATION",total:44,res:"P"},
-{code:"1119P25",name:"COMPUTER FUNDAMENTALS LAB",total:32,res:"P"},
-{code:"112025",name:"PROBLEM SOLVING USING C",total:60,res:"P"},
-{code:"1120P25",name:"C LAB",total:30,res:"P"}
-]
-},
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyA40F7vVh6zQYxnqbAQEl8xtWsJBoXzpmE",
+  authDomain: "jkcresults-34ee4.firebaseapp.com",
+  projectId: "jkcresults-34ee4",
+  storageBucket: "jkcresults-34ee4.firebasestorage.app",
+  messagingSenderId: "260797558344",
+  appId: "1:260797558344:web:baa984235ff8558797727d",
+  measurementId: "G-6QHJB0ERBX"
+};
 
-"250702":{
-name:"ACHARAM GNANA LAKSHMI SOUNDARYA",
-results:[
-{code:"100125",name:"ENGLISH BRIDGE-I",total:67,res:"P"},
-{code:"100225",name:"SAHITHI VASANTHAM",total:77,res:"P"},
-{code:"101125",name:"AI FUNDAMENTALS",total:64,res:"P"},
-{code:"111925",name:"COMPUTER FUNDAMENTALS",total:45,res:"P"},
-{code:"1119P25",name:"COMPUTER LAB",total:31,res:"P"},
-{code:"112025",name:"C PROGRAMMING",total:55,res:"P"},
-{code:"1120P25",name:"C LAB",total:30,res:"P"}
-]
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+async function showResult(){
+
+let reg=document.getElementById("regno").value;
+
+const ref=doc(db,"Student",reg);
+const snap=await getDoc(ref);
+
+let box=document.getElementById("resultBox");
+
+if(snap.exists()){
+
+let data=snap.data();
+
+box.innerHTML=`
+<h2>${data.Name}</h2>
+<p>Course: ${data.Course}</p>
+<p>Semester: ${data.Semester}</p>
+`;
+
+}else{
+
+box.innerHTML="Result not found";
+
 }
 
-};
+}
+
+window.showResult=showResult;
+
+  </script>
+
+
 
 function showResult(){
 

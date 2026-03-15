@@ -1,52 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-<title>JKC College Results</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<title>JKC College Results Portal</title>
 
 <style>
-
 body{
 font-family:Arial;
 background:#f2f2f2;
 text-align:center;
+padding:20px;
 }
 
-.box{
-background:white;
-width:400px;
-margin:80px auto;
-padding:20px;
-border-radius:8px;
-box-shadow:0 0 10px gray;
+h1{
+color:red;
 }
 
 input{
 padding:10px;
-width:200px;
-margin:10px;
+font-size:16px;
 }
 
 button{
-padding:10px 20px;
-background:#1a237e;
-color:white;
-border:none;
+padding:10px 15px;
 margin:5px;
+font-size:15px;
 cursor:pointer;
 }
 
 table{
-width:100%;
+width:90%;
+margin:auto;
 border-collapse:collapse;
+background:white;
 margin-top:20px;
 }
 
 th,td{
 border:1px solid #ccc;
-padding:8px;
+padding:10px;
+}
+
+th{
+background:#eee;
 }
 
 .pass{
@@ -59,153 +54,138 @@ color:red;
 font-weight:bold;
 }
 
+#resultBox{
+margin-top:30px;
+}
+
+.revaluation{
+margin-top:20px;
+padding:15px;
+background:white;
+width:400px;
+margin-left:auto;
+margin-right:auto;
+border-radius:6px;
+}
 </style>
 
 </head>
 
 <body>
 
-<h2>JKC COLLEGE RESULTS PORTAL</h2>
+<h1>JKC COLLEGE RESULTS PORTAL</h1>
 
-<div class="box">
+<p>Enter Registration Number</p>
 
-<input type="text" id="regNo" placeholder="Enter Hall Ticket">
-
-<br>
-
+<input type="text" id="regno" placeholder="Enter Reg No">
 <button onclick="showResult()">Check Result</button>
 
-</div>
-
-<div id="result-area"></div>
+<div id="resultBox"></div>
 
 <script>
 
-const studentDB={
+const studentDB = {
 
 "250726":{
-name:"Sample Student",
+name:"BANDI KUSHVANTH REDDY",
 results:[
-{code:"1001",name:"English",cia:"24/40",see:"44/60",total:68,res:"P"},
-{code:"1002",name:"Sanskrit",cia:"20/40",see:"30/60",total:50,res:"P"},
-{code:"1003",name:"AI Fundamentals",cia:"22/40",see:"25/60",total:47,res:"P"}
+{subject:"ENGLISH",marks:68},
+{subject:"SAHITHI VASANTHAM",marks:28},
+{subject:"AI FUNDAMENTALS",marks:68},
+{subject:"COMPUTER FUNDAMENTALS",marks:48}
 ]
 },
 
-/* ======================
-ADD NEXT STUDENT HERE
-====================== */
-
 "250727":{
-name:"Next Student",
+name:"BANDI SATHYATEJA",
 results:[
-{code:"1001",name:"English",cia:"20/40",see:"30/60",total:50,res:"P"},
-{code:"1002",name:"Sanskrit",cia:"18/40",see:"20/60",total:38,res:"F"},
-{code:"1003",name:"AI Fundamentals",cia:"22/40",see:"30/60",total:52,res:"P"}
+{subject:"ENGLISH",marks:53},
+{subject:"SAHITHI VASANTHAM",marks:57},
+{subject:"AI FUNDAMENTALS",marks:68},
+{subject:"COMPUTER FUNDAMENTALS",marks:47}
 ]
-}
+},
+
+// NEXT STUDENT DATA ADD HERE
 
 };
 
+
 function showResult(){
 
-let reg=document.getElementById("regNo").value;
+let reg=document.getElementById("regno").value;
+let student=studentDB[reg];
+let box=document.getElementById("resultBox");
 
-let area=document.getElementById("result-area");
-
-if(!studentDB[reg]){
-
-area.innerHTML="<h3>Result Not Found</h3>";
-
+if(!student){
+box.innerHTML="<h3 style='color:red'>Student Not Found</h3>";
 return;
-
 }
 
-let student=studentDB[reg];
+let html="<h2>"+student.name+"</h2>";
 
-let rows="";
+html+="<table>";
+html+="<tr><th>Subject</th><th>Marks</th><th>Status</th></tr>";
 
-student.results.forEach(s=>{
+student.results.forEach(r=>{
 
-let cls=s.res=="P"?"pass":"fail";
+let status=r.marks>=21?"PASS":"FAIL";
+let className=r.marks>=21?"pass":"fail";
 
-rows+=`
+html+=`
 <tr>
-<td>${s.code}</td>
-<td>${s.name}</td>
-<td>${s.cia}</td>
-<td>${s.see}</td>
-<td>${s.total}</td>
-<td class="${cls}">${s.res}</td>
+<td>${r.subject}</td>
+<td>${r.marks}</td>
+<td class="${className}">${status}</td>
 </tr>
 `;
 
 });
 
-area.innerHTML=`
+html+="</table>";
 
-<div id="resultCard">
-
-<h3>${student.name}</h3>
-<h4>Hall Ticket : ${reg}</h4>
-
-<table>
-
-<tr>
-<th>Code</th>
-<th>Subject</th>
-<th>CIA</th>
-<th>SEE</th>
-<th>Total</th>
-<th>Result</th>
-</tr>
-
-${rows}
-
-</table>
-
+html+=`
 <br>
 
-<button onclick="printResult()">Print</button>
+<button onclick="window.print()">Print Result</button>
 
-<button onclick="downloadResult()">Download PDF</button>
+<button onclick="downloadResult()">Download Result</button>
 
-<button onclick="revaluation()">Apply Revaluation</button>
+<div class="revaluation">
+
+<h3>Apply Revaluation</h3>
+
+<input type="text" placeholder="Enter Account Number">
+
+<br><br>
+
+<button>Submit</button>
 
 </div>
-
 `;
 
-}
-
-function printResult(){
-
-let data=document.getElementById("resultCard").innerHTML;
-
-let w=window.open();
-
-w.document.write(data);
-
-w.print();
+box.innerHTML=html;
 
 }
+
 
 function downloadResult(){
 
-let element=document.getElementById("resultCard");
+let content=document.getElementById("resultBox").innerText;
 
-html2pdf().from(element).save("JKC_Result.pdf");
+let blob=new Blob([content],{type:"text/plain"});
 
-}
+let a=document.createElement("a");
 
-function revaluation(){
+a.href=URL.createObjectURL(blob);
 
-alert("Revaluation fee ₹200 per subject");
+a.download="result.txt";
+
+a.click();
 
 }
 
 </script>
 
 </body>
-
 </html>

@@ -4,15 +4,26 @@
 <title>JKC College Results Portal</title>
 
 <style>
+
 body{
 font-family:Arial;
-background:#f2f2f2;
-text-align:center;
+background:#f5f5f5;
 padding:20px;
+text-align:center;
 }
 
 h1{
 color:red;
+margin-bottom:5px;
+}
+
+.subtitle{
+color:#555;
+margin-bottom:30px;
+}
+
+.searchbox{
+margin-bottom:20px;
 }
 
 input{
@@ -23,21 +34,33 @@ font-size:16px;
 button{
 padding:10px 15px;
 margin:5px;
-font-size:15px;
 cursor:pointer;
 }
 
-table{
-width:90%;
-margin:auto;
-border-collapse:collapse;
-background:white;
+#resultBox{
 margin-top:20px;
+}
+
+.student-info{
+background:white;
+padding:15px;
+width:900px;
+margin:auto;
+border-radius:6px;
+box-shadow:0 0 5px #ccc;
+text-align:left;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
 }
 
 th,td{
 border:1px solid #ccc;
 padding:10px;
+text-align:center;
 }
 
 th{
@@ -54,19 +77,27 @@ color:red;
 font-weight:bold;
 }
 
-#resultBox{
-margin-top:30px;
+.actions{
+margin-top:15px;
 }
 
-.revaluation{
-margin-top:20px;
-padding:15px;
+.reval-box{
 background:white;
-width:400px;
-margin-left:auto;
-margin-right:auto;
+padding:20px;
+width:900px;
+margin:30px auto;
 border-radius:6px;
+box-shadow:0 0 5px #ccc;
+text-align:left;
 }
+
+.subject-row{
+display:flex;
+justify-content:space-between;
+border-bottom:1px solid #ddd;
+padding:8px;
+}
+
 </style>
 
 </head>
@@ -74,20 +105,23 @@ border-radius:6px;
 <body>
 
 <h1>JKC COLLEGE RESULTS PORTAL</h1>
+<div class="subtitle">Jagarlamudi Kuppuswamy Choudary College</div>
 
-<p>Enter Registration Number</p>
-
-<input type="text" id="regno" placeholder="Enter Reg No">
+<div class="searchbox">
+<input type="text" id="regno" placeholder="Enter Registration Number">
 <button onclick="showResult()">Check Result</button>
+</div>
 
 <div id="resultBox"></div>
 
 <script>
 
-const studentDB = {
+const studentDB={
 
 "250726":{
 name:"BANDI KUSHVANTH REDDY",
+course:"BSC computer science",
+semester:"1",
 results:[
 {subject:"ENGLISH",marks:68},
 {subject:"SAHITHI VASANTHAM",marks:28},
@@ -98,6 +132,8 @@ results:[
 
 "250727":{
 name:"BANDI SATHYATEJA",
+course:"BSC computer science",
+semester:"1",
 results:[
 {subject:"ENGLISH",marks:53},
 {subject:"SAHITHI VASANTHAM",marks:57},
@@ -111,6 +147,7 @@ results:[
 };
 
 
+
 function showResult(){
 
 let reg=document.getElementById("regno").value;
@@ -122,51 +159,102 @@ box.innerHTML="<h3 style='color:red'>Student Not Found</h3>";
 return;
 }
 
-let html="<h2>"+student.name+"</h2>";
+let total=0;
 
-html+="<table>";
-html+="<tr><th>Subject</th><th>Marks</th><th>Status</th></tr>";
+let html="";
+
+html+=`
+<div class="student-info">
+
+<b>Student Name :</b> ${student.name}<br>
+<b>Registration Number :</b> ${reg}<br>
+<b>Course :</b> ${student.course}<br>
+<b>Semester :</b> ${student.semester}
+
+<table>
+<tr>
+<th>Subject</th>
+<th>Marks</th>
+<th>Status</th>
+</tr>
+`;
 
 student.results.forEach(r=>{
 
 let status=r.marks>=21?"PASS":"FAIL";
-let className=r.marks>=21?"pass":"fail";
+let cls=r.marks>=21?"pass":"fail";
+
+total+=r.marks;
 
 html+=`
 <tr>
 <td>${r.subject}</td>
 <td>${r.marks}</td>
-<td class="${className}">${status}</td>
+<td class="${cls}">${status}</td>
 </tr>
 `;
 
 });
 
-html+="</table>";
+html+=`</table>
 
-html+=`
-<br>
+<div class="actions">
 
 <button onclick="window.print()">Print Result</button>
 
 <button onclick="downloadResult()">Download Result</button>
 
-<div class="revaluation">
+</div>
 
-<h3>Apply Revaluation</h3>
+</div>
 
-<input type="text" placeholder="Enter Account Number">
+`;
+
+
+
+/* REVALUATION WINDOW */
+
+html+=`
+
+<div class="reval-box">
+
+<h3>Apply For Revaluation</h3>
+
+<b>Registration Number :</b> ${reg}
 
 <br><br>
 
-<button>Submit</button>
+`;
+
+student.results.forEach(r=>{
+
+html+=`
+<div class="subject-row">
+<label>
+<input type="checkbox"> ${r.subject}
+</label>
+
+<span>₹750</span>
 
 </div>
+`;
+
+});
+
+html+=`
+
+<br>
+
+<button>Submit Revaluation</button>
+
+</div>
+
 `;
 
 box.innerHTML=html;
 
 }
+
 
 
 function downloadResult(){
@@ -179,7 +267,7 @@ let a=document.createElement("a");
 
 a.href=URL.createObjectURL(blob);
 
-a.download="result.txt";
+a.download="JKC_Result.txt";
 
 a.click();
 

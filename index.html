@@ -174,7 +174,6 @@ window.showResult=showResult;
   </script>
 
 
-
 function showResult(){
 
 let reg=document.getElementById("regno").value.trim();
@@ -187,7 +186,6 @@ return;
 }
 
 let total=0;
-
 let html="";
 
 html+=`
@@ -206,15 +204,16 @@ html+=`
 
 student.results.forEach(r=>{
 
-let status=r.res=="P"?"PASS":"FAIL";
-let cls=r.res=="P"?"pass":"fail";
+let marks=r.marks;
+let status=marks>=35?"PASS":"FAIL";
+let cls=marks>=35?"pass":"fail";
 
-total+=r.total;
+total+=marks;
 
 html+=`
 <tr>
-<td>${r.name}</td>
-<td>${r.total}</td>
+<td>${r.subject}</td>
+<td>${marks}</td>
 <td class="${cls}">${status}</td>
 </tr>
 `;

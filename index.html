@@ -146,7 +146,7 @@ async function showResult(){
 
 let reg=document.getElementById("regno").value;
 
-const ref=doc(db,"Student",reg);
+const ref=doc(db,"Students",reg);
 const snap=await getDoc(ref);
 
 let box=document.getElementById("resultBox");

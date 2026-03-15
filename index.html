@@ -116,8 +116,7 @@ results:[
  // Next student data will be add here 
   
 };
-
-function showResult(){
+    function showResult(){
 
 let reg=document.getElementById("regno").value.trim();
 let student=studentDB[reg];
@@ -140,12 +139,42 @@ html+=`
 <tr>
 <th>Code</th>
 <th>Subject</th>
-<th>CIA</th>
-<th>SEE</th>
 <th>Total</th>
 <th>Status</th>
 </tr>
 `;
+
+student.results.forEach(r=>{
+
+let status=r.res=="P"?"PASS":"FAIL";
+let cls=r.res=="P"?"pass":"fail";
+
+html+=`
+<tr>
+<td>${r.code}</td>
+<td>${r.name}</td>
+<td>${r.total}</td>
+<td class="${cls}">${status}</td>
+</tr>
+`;
+
+});
+
+html+=`</table>
+
+<div class="actions">
+
+<button onclick="window.print()">Print Result</button>
+<button onclick="downloadResult()">Download Result</button>
+
+</div>
+
+</div>
+`;
+
+box.innerHTML=html;
+
+    }
 
 student.results.forEach(r=>{
 

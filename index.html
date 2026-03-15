@@ -118,86 +118,7 @@ results:[
 };
 
 function showResult(){
-
-let reg=document.getElementById("regno").value.trim();
-let student=studentDB[reg];
-let box=document.getElementById("resultBox");
-
-if(!student){
-box.innerHTML="<h3 style='color:red'>Student Not Found</h3>";
-return;
-}
-
-let total=0;
-
-let html="";
-
-html+=`
-<div class="student-info">
-
-<b>Student Name :</b> ${student.name}<br>
-<b>Registration Number :</b> ${reg}
-
-<table>
-<tr>
-<th>Subject</th>
-<th>Marks</th>
-<th>Status</th>
-</tr>
-`;
-
-student.results.forEach(r=>{
-
-let status=r.res=="P"?"PASS":"FAIL";
-let cls=r.res=="P"?"pass":"fail";
-
-total+=r.total;
-
-html+=`
-<tr>
-<td>${r.name}</td>
-<td>${r.total}</td>
-<td class="${cls}">${status}</td>
-</tr>
-`;
-
-});
-
-html+=`</table>
-
-<h3>Total Marks : ${total}</h3>
-
-<div class="actions">
-<button onclick="window.print()">Print Result</button>
-<button onclick="downloadResult()">Download Result</button>
-</div>
-
-</div>
-`;
-
-box.innerHTML=html;
-
-}
-
-function downloadResult(){
-
-let content=document.getElementById("resultBox").innerText;
-
-let blob=new Blob([content],{type:"text/plain"});
-
-let a=document.createElement("a");
-
-a.href=URL.createObjectURL(blob);
-a.download="JKC_Result.txt";
-a.click();
-
-}
-
-</script>
-
-</body>
-</html>
-html+=`
+    html+=`
 
 <div class="reval-box">
 
@@ -235,7 +156,7 @@ html+=`
 </div>
 
 `;
-function applyRevaluation(reg){
+    function applyRevaluation(reg){
 
 let subjects=document.querySelectorAll(".revsub:checked");
 
@@ -319,4 +240,83 @@ Your revaluation request has been recorded.
 
 `;
 
+    }
+
+let reg=document.getElementById("regno").value.trim();
+let student=studentDB[reg];
+let box=document.getElementById("resultBox");
+
+if(!student){
+box.innerHTML="<h3 style='color:red'>Student Not Found</h3>";
+return;
 }
+
+let total=0;
+
+let html="";
+
+html+=`
+<div class="student-info">
+
+<b>Student Name :</b> ${student.name}<br>
+<b>Registration Number :</b> ${reg}
+
+<table>
+<tr>
+<th>Subject</th>
+<th>Marks</th>
+<th>Status</th>
+</tr>
+`;
+
+student.results.forEach(r=>{
+
+let status=r.res=="P"?"PASS":"FAIL";
+let cls=r.res=="P"?"pass":"fail";
+
+total+=r.total;
+
+html+=`
+<tr>
+<td>${r.name}</td>
+<td>${r.total}</td>
+<td class="${cls}">${status}</td>
+</tr>
+`;
+
+});
+
+html+=`</table>
+
+<h3>Total Marks : ${total}</h3>
+
+<div class="actions">
+<button onclick="window.print()">Print Result</button>
+<button onclick="downloadResult()">Download Result</button>
+</div>
+
+</div>
+`;
+
+box.innerHTML=html;
+
+}
+
+function downloadResult(){
+
+let content=document.getElementById("resultBox").innerText;
+
+let blob=new Blob([content],{type:"text/plain"});
+
+let a=document.createElement("a");
+
+a.href=URL.createObjectURL(blob);
+a.download="JKC_Result.txt";
+a.click();
+
+}
+
+</script>
+
+</body>
+</html>

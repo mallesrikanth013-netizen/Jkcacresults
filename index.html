@@ -12,13 +12,11 @@ text-align:center;
 }
 
 h1{color:red;margin-bottom:5px;}
-
 .subtitle{color:#555;margin-bottom:30px;}
 
 .searchbox{margin-bottom:20px;}
 
 input{padding:10px;font-size:16px;}
-
 button{padding:10px 15px;margin:5px;cursor:pointer;}
 
 #resultBox{margin-top:20px;}
@@ -52,63 +50,7 @@ th{background:#eee;}
 
 .actions{margin-top:15px;}
 
-.reval-box{
-background:white;
-padding:20px;
-width:900px;
-margin:30px auto;
-border-radius:6px;
-box-shadow:0 0 5px #ccc;
-text-align:left;
-}
-html+=`
-
-<div class="reval-box">
-
-<h3>Apply For Revaluation</h3>
-
-<b>Registration Number :</b> ${reg}
-
-<br><br>
-
-`;
-
-student.results.forEach(r=>{
-
-html+=`
-
-<div class="subject-row">
-
-<label>
-<input type="checkbox" class="revsub" value="${r.name}">
-${r.name}
-</label>
-
-<span>₹750</span>
-
-</div>
-
-`;
-
-});
-
-html+=`
-
-<br>
-
-<button onclick="applyRevaluation('${reg}')">Proceed To Payment</button>
-
-</div>
-
-`;
-.subject-row{
-display:flex;
-justify-content:space-between;
-border-bottom:1px solid #ddd;
-padding:8px;
-}
 </style>
-
 </head>
 
 <body>
@@ -128,15 +70,13 @@ padding:8px;
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyA40F7vVh6zQYxnqbAQEl8xtWsJBoXzpmE",
-  authDomain: "jkcresults-34ee4.firebaseapp.com",
-  projectId: "jkcresults-34ee4",
-  storageBucket: "jkcresults-34ee4.firebasestorage.app",
-  messagingSenderId: "260797558344",
-  appId: "1:260797558344:web:baa984235ff8558797727d",
-  measurementId: "G-6QHJB0ERBX"
+apiKey: "AIzaSyA40F7vVh6zQYxnqbAQEl8xtWsJBoXzpmE",
+authDomain: "jkcresults-34ee4.firebaseapp.com",
+projectId: "jkcresults-34ee4",
+storageBucket: "jkcresults-34ee4.firebasestorage.app",
+messagingSenderId: "260797558344",
+appId: "1:260797558344:web:baa984235ff8558797727d"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -144,26 +84,30 @@ const db = getFirestore(app);
 
 async function showResult(){
 
-let reg=document.getElementById("regno").value;
+let reg=document.getElementById("regno").value.trim();
+let box=document.getElementById("resultBox");
 
 const ref=doc(db,"Students",reg);
 const snap=await getDoc(ref);
-
-let box=document.getElementById("resultBox");
 
 if(snap.exists()){
 
 let data=snap.data();
 
 box.innerHTML=`
+<div class="student-info">
+
 <h2>${data.Name}</h2>
-<p>Course: ${data.Course}</p>
-<p>Semester: ${data.Semester}</p>
+
+<p><b>Course:</b> ${data.Course}</p>
+<p><b>Semester:</b> ${data.Semester}</p>
+
+</div>
 `;
 
 }else{
 
-box.innerHTML="Result not found";
+box.innerHTML="<h3 style='color:red'>Result not found</h3>";
 
 }
 
@@ -171,70 +115,7 @@ box.innerHTML="Result not found";
 
 window.showResult=showResult;
 
-  </script>
-
-
-function showResult(){
-
-let reg=document.getElementById("regno").value.trim();
-let student=studentDB[reg];
-let box=document.getElementById("resultBox");
-
-if(!student){
-box.innerHTML="<h3 style='color:red'>Student Not Found</h3>";
-return;
-}
-
-let total=0;
-let html="";
-
-html+=`
-<div class="student-info">
-
-<b>Student Name :</b> ${student.name}<br>
-<b>Registration Number :</b> ${reg}
-
-<table>
-<tr>
-<th>Subject</th>
-<th>Marks</th>
-<th>Status</th>
-</tr>
-`;
-
-student.results.forEach(r=>{
-
-let marks=r.marks;
-let status=marks>=35?"PASS":"FAIL";
-let cls=marks>=35?"pass":"fail";
-
-total+=marks;
-
-html+=`
-<tr>
-<td>${r.subject}</td>
-<td>${marks}</td>
-<td class="${cls}">${status}</td>
-</tr>
-`;
-
-});
-
-html+=`</table>
-
-<h3>Total Marks : ${total}</h3>
-
-<div class="actions">
-<button onclick="window.print()">Print Result</button>
-<button onclick="downloadResult()">Download Result</button>
-</div>
-
-</div>
-`;
-
-box.innerHTML=html;
-
-}
+</script>
 
 function downloadResult(){
 

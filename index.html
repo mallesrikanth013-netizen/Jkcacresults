@@ -56,7 +56,7 @@ th{background:#eee;}
 <body>
 
 <h1>JKC COLLEGE RESULTS PORTAL</h1>
-<div class="subtitle">Jagarlamudi Kuppuswamy Choudary College</div>
+<div class="subtitle">Jagarlamudi Kuppuswamy Choudary College Autonomous Guntur</div>
 
 <div class="searchbox">
 <input type="text" id="regno" placeholder="Enter Registration Number">
@@ -94,7 +94,7 @@ if(snap.exists()){
 
 let data=snap.data();
 
-box.innerHTML=`
+let html=`
 <div class="student-info">
 
 <h2>${data.Name}</h2>
@@ -102,8 +102,41 @@ box.innerHTML=`
 <p><b>Course:</b> ${data.Course}</p>
 <p><b>Semester:</b> ${data.Semester}</p>
 
+<table>
+<tr>
+<th>Subject</th>
+<th>Marks</th>
+<th>Status</th>
+</tr>
+`;
+
+data.Results.forEach(r=>{
+
+let status=r.marks>=35?"PASS":"FAIL";
+let cls=r.marks>=35?"pass":"fail";
+
+html+=`
+<tr>
+<td>${r.subject}</td>
+<td>${r.marks}</td>
+<td class="${cls}">${status}</td>
+</tr>
+`;
+
+});
+
+html+=`
+</table>
+
+<div class="actions">
+<button onclick="window.print()">Print Result</button>
+<button onclick="downloadResult()">Download Result</button>
+</div>
+
 </div>
 `;
+
+box.innerHTML=html;
 
 }else{
 
@@ -130,6 +163,9 @@ a.download="JKC_Result.txt";
 a.click();
 
 }
+
+window.downloadResult=downloadResult;
+
 </script>
 
 

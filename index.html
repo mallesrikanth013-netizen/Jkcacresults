@@ -1,447 +1,292 @@
 <!DOCTYPE html>
-  
-<html>
-  
+<html lang="te">
 <head>
-  
-<title>JKC Results</title>
-  
-
-  
-<style>
-  
-body{
-  
-font-family:Arial;
-  
-background:#eef1f5;
-  
-text-align:center;
-  
-padding:20px;
-  
-}
-  
-
-  
-h1{color:red;}
-  
-h3{color:#444;margin-top:-10px;}
-  
-
-  
-.container{
-  
-background:white;
-  
-padding:20px;
-  
-border-radius:8px;
-  
-width:900px;
-  
-margin:auto;
-  
-box-shadow:0 0 10px #ccc;
-  
-}
-  
-
-  
-input{
-  
-padding:10px;
-  
-width:220px;
-  
-margin:5px;
-  
-}
-  
-
-  
-button{
-  
-padding:10px 15px;
-  
-margin:5px;
-  
-cursor:pointer;
-  
-}
-  
-
-  
-table{
-  
-width:100%;
-  
-border-collapse:collapse;
-  
-margin-top:20px;
-  
-}
-  
-
-  
-th,td{
-  
-border:1px solid #ccc;
-  
-padding:10px;
-  
-}
-  
-
-  
-th{background:#f2f2f2;}
-  
-
-  
-.pass{color:green;font-weight:bold;}
-  
-.fail{color:red;font-weight:bold;}
-  
-
-  
-.reval{
-  
-margin-top:30px;
-  
-text-align:left;
-  
-}
-  
-
-  
-.subject{
-  
-display:flex;
-  
-justify-content:space-between;
-  
-padding:8px;
-  
-border-bottom:1px solid #ddd;
-  
-}
-  
-
-  
-.totalAmt{
-  
-font-weight:bold;
-  
-margin-top:10px;
-  
-}
-  
-</style>
-  
-
-  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JKC College Results Portal</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .header h3 { font-size: 1.2em; opacity: 0.9; }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        .input-section {
+            background: linear-gradient(145deg, #f0f2f5, #ffffff);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        input[type="text"] {
+            width: 300px;
+            padding: 15px 20px;
+            font-size: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        input:focus { border-color: #667eea; box-shadow: 0 0 15px rgba(102,126,234,0.3); }
+        button {
+            padding: 15px 30px;
+            font-size: 16px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-left: 15px;
+            transition: transform 0.2s;
+        }
+        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,107,107,0.4); }
+        #result { display: none; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        th {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td { padding: 15px; border-bottom: 1px solid #f0f0f0; }
+        tr:hover { background: #f8f9ff; }
+        .pass { color: #28a745; font-weight: bold; }
+        .fail { color: #dc3545; font-weight: bold; }
+        .print-btn, .download-btn {
+            background: #28a745;
+            margin: 20px 10px 0 0;
+        }
+        .print-btn:hover, .download-btn:hover { box-shadow: 0 5px 15px rgba(40,167,69,0.4); }
+        .reval-section {
+            background: linear-gradient(145deg, #fff3cd, #ffeaa7);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+            border-left: 5px solid #ffc107;
+        }
+        .subject {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid #dee2e6;
+            margin-bottom: 10px;
+        }
+        .subject label { cursor: pointer; font-size: 14px; }
+        .totalAmt {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #495057;
+            margin-top: 20px;
+            text-align: right;
+        }
+        .utr-input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .submit-reval {
+            background: linear-gradient(45deg, #00b894, #00a085);
+            width: 100%;
+            margin-top: 15px;
+        }
+        @media (max-width: 768px) {
+            .container { padding: 20px; margin: 10px; }
+            input[type="text"] { width: 100%; margin-bottom: 15px; }
+            button { width: 100%; margin: 5px 0; }
+            .header h1 { font-size: 2em; }
+        }
+    </style>
 </head>
-  
-
-  
 <body>
-  
+    <div class="header">
+        <h1>JKC College Results Portal</h1>
+        <h3>Jagarlamudi Kuppuswamy Choudary College Autonomous, Guntur Designed by MSR </h3>
+    </div>
+    
+    <div class="container">
+        <div class="input-section">
+            <input type="text" id="regno" placeholder="Enter Reg No (e.g., 250726)" maxlength="20">
+            <button onclick="showResult()">Check</button>
+        </div>
+        
+        <div id="result"></div>
+    </div>
 
-  
-<h1>JKC COLLEGE RESULTS PORTAL</h1>
-  
-<h3>Jagarlamudi Kuppuswamy Choudary College Autonomous, Guntur</h3>
-  
+    <script>
+        const studentDB = {
+            "250726": {
+                name: "BANDI KUSHVANTH REDDY",
+                results: [
+                    {code: "100125", name: "ENGLISH BRIDGE-I", cia: "24/40", see: "44/60", total: 68},
+                    {code: "100225", name: "SAHITHI VASANTHAM", cia: "28/40", see: "00/80", total: 28},
+                    {code: "101125", name: "AI FUNDAMENTALS", cia: "31/40", see: "37/60", total: 68},
+                    {code: "111925", name: "COMPUTER FUNDAMENTALS", cia: "24/40", see: "24/60", total: 48},
+                    {code: "1119P25", name: "COMPUTER LAB", cia: "7/10", see: "26/40", total: 33},
+                    {code: "112025", name: "C PROGRAMMING", cia: "19/40", see: "28/60", total: 47},
+                    {code: "1120P25", name: "C LAB", cia: "10/10", see: "16/40", total: 26}
+                ]
+            },
+            "250727": {
+                name: "BANDI SATHYATEJA",
+                results: [
+                    {code: "100125", name: "ENGLISH BRIDGE-I", cia: "28/40", see: "25/60", total: 53},
+                    {code: "100225", name: "SAHITHI VASANTHAM", cia: "32/40", see: "25/80", total: 57},
+                    {code: "101125", name: "AI FUNDAMENTALS", cia: "35/40", see: "33/60", total: 68},
+                    {code: "111925", name: "COMPUTER FUNDAMENTALS", cia: "22/40", see: "25/60", total: 47},
+                    {code: "1119P25", name: "COMPUTER LAB", cia: "5/10", see: "20/40", total: 25},
+                    {code: "112025", name: "C PROGRAMMING", cia: "24/40", see: "31/60", total: 55},
+                    {code: "1120P25", name: "C LAB", cia: "10/10", see: "16/40", total: 26}
+                ]
+            },
+            "250728": {
+                name: "BATHHULA VISHNUVARDHAN",
+                results: [
+                    {code: "100125", name: "ENGLISH BRIDGE-I", cia: "26/40", see: "26/60", total: 52},
+                    {code: "100225", name: "SAHITHI VASANTHAM", cia: "35/40", see: "33/80", total: 68},
+                    {code: "101125", name: "AI FUNDAMENTALS", cia: "32/40", see: "30/60", total: 62},
+                    {code: "111925", name: "COMPUTER FUNDAMENTALS", cia: "25/40", see: "24/60", total: 49},
+                    {code: "1119P25", name: "COMPUTER LAB", cia: "7/10", see: "25/40", total: 32},
+                    {code: "112025", name: "C PROGRAMMING", cia: "22/40", see: "37/60", total: 59},
+                    {code: "1120P25", name: "C LAB", cia: "10/10", see: "20/40", total: 30}
+                ]
+            }
+            // Remaining students data Add Here
+        };
 
-  
-<div class="container">
-  
+        function showResult() {
+            let reg = document.getElementById("regno").value.trim();
+            let out = document.getElementById("result");
+            
+            if (!studentDB[reg]) {
+                out.innerHTML = "<h3 style='color: #dc3545; text-align: center; padding: 40px;'>No Data Found!</h3>";
+                out.style.display = "block";
+                return;
+            }
+            
+            let s = studentDB[reg];
+            let html = `<h2 style="color: #333; margin-bottom: 20px;">${s.name}</h2>`;
+            
+            html += `
+                <table>
+                    <tr>
+                        <th>Code</th>
+                        <th>Subject</th>
+                        <th>CIA</th>
+                        <th>SEE</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                    </tr>
+            `;
+            
+            s.results.forEach(r => {
+                let pass = parseInt(r.total) >= 21;
+                html += `
+                    <tr>
+                        <td>${r.code}</td>
+                        <td>${r.name}</td>
+                        <td>${r.cia}</td>
+                        <td>${r.see}</td>
+                        <td>${r.total}</td>
+                        <td class="${pass ? 'pass' : 'fail'}">${pass ? 'PASS' : 'FAIL'}</td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                </table>
+                <button class="print-btn" onclick="window.print()">Print</button>
+                <button class="download-btn" onclick="download()">Download</button>
+                
+                <div class="reval-section">
+                    <h3>Revaluation (₹750 each)</h3>
+            `;
+            
+            s.results.forEach((r, index) => {
+                html += `
+                    <div class="subject">
+                        <label>
+                            <input type="checkbox" onchange="calcTotal()" data-price="750"> ${r.name}
+                        </label>
+                        <span>₹750</span>
+                    </div>
+                `;
+            });
+            
+            html += `
+                    <div class="totalAmt">Total Amount: ₹<span id="amt">0</span></div>
+                    <input type="text" id="utr" class="utr-input" placeholder="Enter UTR / TRN Number">
+                    <br>
+                    <button class="submit-reval" onclick="submitReval()">Submit Revaluation</button>
+                </div>
+            `;
+            
+            out.innerHTML = html;
+            out.style.display = "block";
+        }
 
-  
-<input type="text" id="regno" placeholder="Enter Reg No">
-  
-<button onclick="showResult()">Check</button>
-  
+        function calcTotal() {
+            let checks = document.querySelectorAll("input[type=checkbox]:checked");
+            let total = checks.length * 750;
+            document.getElementById("amt").innerText = total;
+        }
 
-  
-<div id="result"></div>
-  
+        function submitReval() {
+            let utr = document.getElementById("utr").value.trim();
+            let amt = document.getElementById("amt").innerText;
+            
+            if (parseInt(amt) === 0) {
+                alert("Select at least one subject");
+                return;
+            }
+            if (!utr) {
+                alert("Enter UTR / TRN Number");
+                return;
+            }
+            alert("Revaluation Applied Successfully ✅
+Amount: ₹" + amt + "
+UTR: " + utr);
+        }
 
-  
-</div>
-  
-
-  
-<script>
-  
-
-  
-const studentDB={
-  
-
-  
-"250727":{ name:"BANDI KUSHVANTH REDDY", results:[ {code:"100125",name:"ENGLISH BRIDGE-I",cia:"24/40",see:"44/60",total:68},
-  
-{code:"100225",name:"SAHITHI VASANTHAM",cia:"28/40",see:"00/80",total:28},
-  
-{code:"101125",name:"AI FUNDAMENTALS",cia:"31/40",see:"37/60",total:68},
-  
-{code:"111925",name:"COMPUTER FUNDAMENTALS",cia:"24/40",see:"24/60",total:48},
-  
-{code:"1119P25",name:"COMPUTER LAB",cia:"7/10",see:"26/40",total:33},
-  
-{code:"112025",name:"C PROGRAMMING",cia:"19/40",see:"28/60",total:47}, 
-  
-{code:"1120P25",name:"C LAB",cia:"10/10",see:"16/40",total:26}
-  
-] 
-  
-  
-  
-},
-  
-
-  
-// NEXT STUDENT DATA ADD HERE
-  
-
-  
-};
-  
-
-  
-
-  
-function showResult(){
-  
-
-  
-let reg=document.getElementById("regno").value;
-  
-let s=studentDB[reg];
-  
-let out=document.getElementById("result");
-  
-
-  
-if(!s){
-  
-out.innerHTML="<h3 style='color:red'>No Data</h3>";
-  
-return;
-  
-}
-  
-
-  
-let html=`<h2>${s.name}</h2>`;
-  
-
-  
-html+=`
-  
-<table>
-  
-<tr>
-  
-<th>Code</th>
-  
-<th>Subject</th>
-  
-<th>CIA</th>
-  
-<th>SEE</th>
-  
-<th>Total</th>
-  
-<th>Status</th>
-  
-</tr>
-  
-`;
-  
-
-  
-s.results.forEach((r,i)=>{
-  
-
-  
-let pass=r.total>=21;
-  
-
-  
-html+=`
-  
-<tr>
-  
-<td>${r.code}</td>
-  
-<td>${r.name}</td>
-  
-<td>${r.cia}</td>
-  
-<td>${r.see}</td>
-  
-<td>${r.total}</td>
-  
-<td class="${pass?'pass':'fail'}">${pass?'PASS':'FAIL'}</td>
-  
-</tr>
-  
-`;
-  
-
-  
-});
-  
-
-  
-html+=`</table>
-  
-
-  
-<br>
-  
-
-  
-<button onclick="window.print()">Print</button>
-  
-<button onclick="download()">Download</button>
-  
-
-  
-<div class="reval">
-  
-<h3>Revaluation (₹750 each)</h3>
-  
-`;
-  
-
-  
-s.results.forEach((r,i)=>{
-  
-html+=`
-  
-<div class="subject">
-  
-<label>
-  
-<input type="checkbox" onchange="calcTotal()"> ${r.name}
-  
-</label>
-  
-<span>₹750</span>
-  
-</div>
-  
-`;
-  
-});
-  
-
-  
-html+=`
-  
-<div class="totalAmt">Total Amount: ₹<span id="amt">0</span></div>
-  
-
-  
-<input type="text" id="utr" placeholder="Enter UTR / TRN Number">
-  
-
-  
-<br>
-  
-<button onclick="submitReval()">Submit</button>
-  
-</div>
-  
-`;
-  
-
-  
-out.innerHTML=html;
-  
-
-  
-}
-  
-
-  
-
-  
-function calcTotal(){
-  
-let checks=document.querySelectorAll("input[type=checkbox]:checked");
-  
-let total=checks.length*750;
-  
-document.getElementById("amt").innerText=total;
-  
-}
-  
-
-  
-
-  
-function submitReval(){
-  
-let utr=document.getElementById("utr").value;
-  
-let amt=document.getElementById("amt").innerText;
-  
-
-  
-if(amt==0){
-  
-alert("Select at least one subject");
-  
-return;
-  
-}
-  
-
-  
-if(utr==""){
-  
-alert("Enter UTR / TRN Number");
-  
-return;
-  
-}
-  
-
-  
-alert("Revaluation Applied Successfully ✅\nAmount: ₹"+amt+"\nUTR: "+utr);
-  
-}
-  
-
-  
-
-  
-function download(){
-  
-let text=document.getElementById("result").innerText;
-  
-let blob=new Blob([text],{type:"text/plain"});
-  
-let a=document.createElement("a");
-  
-a.href=URL.createObjectURL(blob);
-  
-a.download="result.txt";
-  
-a.click();
-  
-}
-  
-
-  
-</script>
-  
-
-  
+        function download() {
+            let text = document.getElementById("result").innerText;
+            let blob = new Blob([text], { type: "text/plain" });
+            let a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "JKC_Results.txt";
+            a.click();
+        }
+    </script>
 </body>
-  
 </html>

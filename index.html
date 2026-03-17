@@ -1,171 +1,447 @@
 <!DOCTYPE html>
+  
 <html>
+  
 <head>
-<title>JKC College Results Portal</title>
+  
+<title>JKC Results</title>
+  
 
+  
 <style>
+  
 body{
+  
 font-family:Arial;
-background:#f5f5f5;
+  
+background:#eef1f5;
+  
+text-align:center;
+  
 padding:20px;
-text-align:center;
+  
 }
+  
 
-h1{color:red;margin-bottom:5px;}
-.subtitle{color:#555;margin-bottom:30px;}
+  
+h1{color:red;}
+  
+h3{color:#444;margin-top:-10px;}
+  
 
-.searchbox{margin-bottom:20px;}
-
-input{padding:10px;font-size:16px;}
-button{padding:10px 15px;margin:5px;cursor:pointer;}
-
-#resultBox{margin-top:20px;}
-
-.student-info{
+  
+.container{
+  
 background:white;
-padding:15px;
+  
+padding:20px;
+  
+border-radius:8px;
+  
 width:900px;
+  
 margin:auto;
-border-radius:6px;
-box-shadow:0 0 5px #ccc;
-text-align:left;
+  
+box-shadow:0 0 10px #ccc;
+  
 }
+  
 
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:15px;
-}
-
-th,td{
-border:1px solid #ccc;
+  
+input{
+  
 padding:10px;
-text-align:center;
+  
+width:220px;
+  
+margin:5px;
+  
 }
+  
 
-th{background:#eee;}
+  
+button{
+  
+padding:10px 15px;
+  
+margin:5px;
+  
+cursor:pointer;
+  
+}
+  
 
+  
+table{
+  
+width:100%;
+  
+border-collapse:collapse;
+  
+margin-top:20px;
+  
+}
+  
+
+  
+th,td{
+  
+border:1px solid #ccc;
+  
+padding:10px;
+  
+}
+  
+
+  
+th{background:#f2f2f2;}
+  
+
+  
 .pass{color:green;font-weight:bold;}
+  
 .fail{color:red;font-weight:bold;}
+  
 
-.actions{margin-top:15px;}
+  
+.reval{
+  
+margin-top:30px;
+  
+text-align:left;
+  
+}
+  
 
+  
+.subject{
+  
+display:flex;
+  
+justify-content:space-between;
+  
+padding:8px;
+  
+border-bottom:1px solid #ddd;
+  
+}
+  
+
+  
+.totalAmt{
+  
+font-weight:bold;
+  
+margin-top:10px;
+  
+}
+  
 </style>
+  
+
+  
 </head>
+  
 
+  
 <body>
+  
 
+  
 <h1>JKC COLLEGE RESULTS PORTAL</h1>
-<div class="subtitle">Jagarlamudi Kuppuswamy Choudary College Autonomous Guntur</div>
+  
+<h3>Jagarlamudi Kuppuswamy Choudary College Autonomous, Guntur</h3>
+  
 
-<div class="searchbox">
-<input type="text" id="regno" placeholder="Enter Registration Number">
-<button onclick="showResult()">Check Result</button>
+  
+<div class="container">
+  
+
+  
+<input type="text" id="regno" placeholder="Enter Reg No">
+  
+<button onclick="showResult()">Check</button>
+  
+
+  
+<div id="result"></div>
+  
+
+  
 </div>
+  
 
-<div id="resultBox"></div>
-<script type="module">
+  
+<script>
+  
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  
+const studentDB={
+  
 
-const firebaseConfig = {
-apiKey: "AIzaSyA40F7vVh6zQYxnqbAQEl8xtWsJBoXzpmE",
-authDomain: "jkcresults-34ee4.firebaseapp.com",
-projectId: "jkcresults-34ee4",
-storageBucket: "jkcresults-34ee4.firebasestorage.app",
-messagingSenderId: "260797558344",
-appId: "1:260797558344:web:baa984235ff8558797727d"
+  
+"250726":{ name:"BANDI KUSHVANTH REDDY", results:[ {code:"100125",name:"ENGLISH BRIDGE-I",cia:"24/40",see:"44/60",total:68},
+  
+{code:"100225",name:"SAHITHI VASANTHAM",cia:"28/40",see:"00/80",total:28},
+  
+{code:"101125",name:"AI FUNDAMENTALS",cia:"31/40",see:"37/60",total:68},
+  
+{code:"111925",name:"COMPUTER FUNDAMENTALS",cia:"24/40",see:"24/60",total:48},
+  
+{code:"1119P25",name:"COMPUTER LAB",cia:"7/10",see:"26/40",total:33},
+  
+{code:"112025",name:"C PROGRAMMING",cia:"19/40",see:"28/60",total:47}, 
+  
+{code:"1120P25",name:"C LAB",cia:"10/10",see:"16/40",total:26}
+  
+] 
+  
+  
+  
+},
+  
+
+  
+// NEXT STUDENT DATA ADD HERE
+  
+
+  
 };
+  
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+  
 
-async function showResult(){
+  
+function showResult(){
+  
 
-let reg=document.getElementById("regno").value.trim();
-let box=document.getElementById("resultBox");
+  
+let reg=document.getElementById("regno").value;
+  
+let s=studentDB[reg];
+  
+let out=document.getElementById("result");
+  
 
-const ref=doc(db,"Students",reg);
-const snap=await getDoc(ref);
+  
+if(!s){
+  
+out.innerHTML="<h3 style='color:red'>No Data</h3>";
+  
+return;
+  
+}
+  
 
-if(snap.exists()){
+  
+let html=`<h2>${s.name}</h2>`;
+  
 
-let data=snap.data();
-
-let html=`
-<div class="student-info">
-
-<h2>${data.Name}</h2>
-
-<p><b>Course:</b> ${data.Course}</p>
-<p><b>Semester:</b> ${data.Semester}</p>
-
+  
+html+=`
+  
 <table>
+  
 <tr>
+  
+<th>Code</th>
+  
 <th>Subject</th>
-<th>Marks</th>
+  
+<th>CIA</th>
+  
+<th>SEE</th>
+  
+<th>Total</th>
+  
 <th>Status</th>
+  
 </tr>
+  
 `;
+  
 
-data.Results.forEach(r=>{
+  
+s.results.forEach((r,i)=>{
+  
 
-let status=r.marks>=35?"PASS":"FAIL";
-let cls=r.marks>=35?"pass":"fail";
+  
+let pass=r.total>=21;
+  
 
+  
 html+=`
+  
 <tr>
-<td>${r.subject}</td>
-<td>${r.marks}</td>
-<td class="${cls}">${status}</td>
+  
+<td>${r.code}</td>
+  
+<td>${r.name}</td>
+  
+<td>${r.cia}</td>
+  
+<td>${r.see}</td>
+  
+<td>${r.total}</td>
+  
+<td class="${pass?'pass':'fail'}">${pass?'PASS':'FAIL'}</td>
+  
 </tr>
+  
 `;
+  
 
+  
 });
+  
 
-html+=`
-</table>
+  
+html+=`</table>
+  
 
-<div class="actions">
-<button onclick="window.print()">Print Result</button>
-<button onclick="downloadResult()">Download Result</button>
-</div>
+  
+<br>
+  
 
-</div>
+  
+<button onclick="window.print()">Print</button>
+  
+<button onclick="download()">Download</button>
+  
+
+  
+<div class="reval">
+  
+<h3>Revaluation (₹750 each)</h3>
+  
 `;
+  
 
-box.innerHTML=html;
+  
+s.results.forEach((r,i)=>{
+  
+html+=`
+  
+<div class="subject">
+  
+<label>
+  
+<input type="checkbox" onchange="calcTotal()"> ${r.name}
+  
+</label>
+  
+<span>₹750</span>
+  
+</div>
+  
+`;
+  
+});
+  
 
-}else{
+  
+html+=`
+  
+<div class="totalAmt">Total Amount: ₹<span id="amt">0</span></div>
+  
 
-box.innerHTML="<h3 style='color:red'>Result not found</h3>";
+  
+<input type="text" id="utr" placeholder="Enter UTR / TRN Number">
+  
 
+  
+<br>
+  
+<button onclick="submitReval()">Submit</button>
+  
+</div>
+  
+`;
+  
+
+  
+out.innerHTML=html;
+  
+
+  
 }
+  
 
+  
+
+  
+function calcTotal(){
+  
+let checks=document.querySelectorAll("input[type=checkbox]:checked");
+  
+let total=checks.length*750;
+  
+document.getElementById("amt").innerText=total;
+  
 }
+  
 
-window.showResult=showResult;
+  
 
-function downloadResult(){
+  
+function submitReval(){
+  
+let utr=document.getElementById("utr").value;
+  
+let amt=document.getElementById("amt").innerText;
+  
 
-let content=document.getElementById("resultBox").innerText;
+  
+if(amt==0){
+  
+alert("Select at least one subject");
+  
+return;
+  
+}
+  
 
-let blob=new Blob([content],{type:"text/plain"});
+  
+if(utr==""){
+  
+alert("Enter UTR / TRN Number");
+  
+return;
+  
+}
+  
 
+  
+alert("Revaluation Applied Successfully ✅\nAmount: ₹"+amt+"\nUTR: "+utr);
+  
+}
+  
+
+  
+
+  
+function download(){
+  
+let text=document.getElementById("result").innerText;
+  
+let blob=new Blob([text],{type:"text/plain"});
+  
 let a=document.createElement("a");
-
+  
 a.href=URL.createObjectURL(blob);
-
-a.download="JKC_Result.txt";
-
+  
+a.download="result.txt";
+  
 a.click();
-
+  
 }
+  
 
-window.downloadResult=downloadResult;
-
+  
 </script>
+  
 
+  
 </body>
+  
 </html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>Admin Dashboard</h2>
+
+  <h3>Add / Update Student</h3>
+  <input type="text" id="roll" placeholder="Roll Number">
+  <input type="text" id="name" placeholder="Student Name">
+
+  <input type="number" id="english" placeholder="English Marks">
+  <input type="number" id="telugu" placeholder="Telugu/Sanskrit Marks">
+  <input type="number" id="office" placeholder="Office Automation Marks">
+  <input type="number" id="clanguage" placeholder="C Language Marks">
+  <input type="number" id="clab" placeholder="C Language Lab Marks">
+  <input type="number" id="cfundamentals" placeholder="Computer Fundamentals Lab Marks">
+
+  <button onclick="addOrUpdateStudent()">Add / Update Student</button>
+
+  <h3>Existing Students</h3>
+  <div id="studentList"></div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>
